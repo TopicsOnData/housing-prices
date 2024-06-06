@@ -25,18 +25,26 @@ square_feet = df['Living area']
 # 1) Number of training examples
 m = df.shape[0] # Returns number of rows; df.shape[1] returns number of columns
 
-# 2) Create container for model evaluation at training example
+# 2) Create container for model evaluation at training example & cost function
 f_wb = []
+cost = []
 
 # 3) Add weight and bias
 w = 500 # Increase in price for every 1 square feet
 b = 100 # Starting price for the cheapest houses
 
-# 4) Index the training examples
+# 4) Index the training examples and add a cost function
 for i in range(m):
     x_i = square_feet[i]
+    y_i = prices[i]
     # 5) Compute prediction at every x_i
-    f_wb.append(w*x_i + b)
+    y_hat = w*x_i + b
+    cost_i = (1/(2*m))*(y_hat-y_i)**2
+    f_wb.append(y_hat)
+    cost.append(cost_i)
+
+# 5) OPTIONAL METRIC: Total cost of function
+total_cost = sum(cost)
 
 # Plot Square feet vs. Price
 fig.add_trace(
