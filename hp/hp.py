@@ -1,3 +1,8 @@
+# Import the machine learning functions
+import sys
+sys.path.append('../')
+from ml.gradient import gradient_descent, cost_function, gradient_function
+
 import plotly.graph_objects as go
 import pandas as pd
 from pandas import Series, DataFrame
@@ -20,32 +25,19 @@ df = df.reset_index(drop=True)
 prices = df['Property price (USD)']
 square_feet = df['Living area']
 
-# Create Linear Regression Model
+# Add starting weight and bias
+w_init = 250 # Increase in price for every 1 square feet
+b_init = 200000 # Starting price for the cheapest houses
 
-# 1) Number of training examples
-m = df.shape[0] # Returns number of rows; df.shape[1] returns number of columns
+# Iterations and learning rate for the gradient descent algorithm
+iterations = 3
+alpha = 5.0e-2
 
-# 2) Create container for model evaluation at training example & cost function
-f_wb = []
-cost = []
+w_final, b_final, J_hist, p_hist = gradient_descent(
+    square_feet, prices, w_init, b_init, alpha, iterations)
 
-# 3) Add weight and bias
-w = 500 # Increase in price for every 1 square feet
-b = 100 # Starting price for the cheapest houses
-
-# 4) Index the training examples and add a cost function
-for i in range(m):
-    x_i = square_feet[i]
-    y_i = prices[i]
-    # 5) Compute prediction at every x_i
-    y_hat = w*x_i + b
-    cost_i = (1/(2*m))*(y_hat-y_i)**2
-    f_wb.append(y_hat)
-    cost.append(cost_i)
-
-# 5) OPTIONAL METRIC: Total cost of function
-total_cost = sum(cost)
-
+# print(f'w: {w_final}, b: {b_final}')
+'''
 # Plot Square feet vs. Price
 fig.add_trace(
     go.Scatter(
@@ -77,4 +69,4 @@ fig.update_layout(
 fig.show()
 
 # Charts: 
-# Zip Codes and Average Price per Living Area Unit
+# Zip Codes and Average Price per Living Area Unit'''
