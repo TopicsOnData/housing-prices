@@ -25,20 +25,27 @@ df = df.reset_index(drop=True)
 prices = df['Property price (USD)']
 square_feet = df['Living area']
 
+prices = prices.div(1000)
+
 # Add starting weight and bias
-w_init = 250 # Increase in price for every 1 square feet
-b_init = 200000 # Starting price for the cheapest houses
+w_init = 2.5e-1 # Increase in price for every 1 square feet
+b_init = 200 # Starting price for the cheapest houses
 
 # Iterations and learning rate for the gradient descent algorithm
-iterations = 3
-alpha = 5.0e-2
+iterations = 10000
+alpha = 1.0e-6 # Delicate and causes a divergence if it's set too large
 
 w_final, b_final, J_hist, p_hist = gradient_descent(
     square_feet, prices, w_init, b_init, alpha, iterations)
 
-# print(f'w: {w_final}, b: {b_final}')
-'''
-# Plot Square feet vs. Price
+print(f'w: {w_final}, b: {b_final}, J_start: {J_hist}, J_End: {p_hist}')
+
+f_wb = []
+for i in range(square_feet.size):
+    f_wb.append(w_final * square_feet[i] + b_final)
+
+
+# Plot Square feet vs. Price, in thousands
 fig.add_trace(
     go.Scatter(
         x=square_feet, 
@@ -54,13 +61,13 @@ fig.add_trace(
         x=square_feet, 
         y=f_wb,
         mode='lines',
-        line=dict(color='skyblue', width=3),
+        line=dict(color='red', width=5),
         name='Predicted'
     )
 )
 
-fig.update_xaxes(title_text="Square Feet")
-fig.update_yaxes(title_text="Price (in USD)")
+fig.update_xaxes(title_text="Square Feet", range=[square_feet.min(), square_feet.max()])
+fig.update_yaxes(title_text="Price (in USD, thousands)")
 
 fig.update_layout(
     title_text='Prices of Single-Family Homes vs. Living Space'
@@ -69,4 +76,4 @@ fig.update_layout(
 fig.show()
 
 # Charts: 
-# Zip Codes and Average Price per Living Area Unit'''
+# Zip Codes and Average Price per Living Area Unit
