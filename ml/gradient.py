@@ -24,13 +24,11 @@ def gradient_function(x, y, w, b):
     dj_db = 0
 
     for i in range(m):
-        print(f'w: {w}, x: {x[i]}, b: {b}') 
         y_hat = w * x[i] + b
         dj_dw_i = (y_hat - y[i]) * x[i]
         dj_db_i = (y_hat - y[i])
         dj_db += dj_db_i
         dj_dw += dj_dw_i
-        print(f'i: {i}, dw: {dj_dw}, db: {dj_db}')
 
     dj_dw /= m
     dj_db /= m
@@ -52,9 +50,11 @@ def gradient_descent(x, y, w_init, b_init, learning_rate,
         # Update weight, bias
         w -= learning_rate * dj_dw
         b -= learning_rate * dj_db
-        #print(f'i: {i}, w: {w}, b: {b}')
-
-    J_history.append(cost_function(x, y, w, b))
-    p_history.append([w,b])
+        
+        # Prevents resource exhaustion; unnecessary to store similar costs
+        # Past 100000 iterations
+        if i < 100000:
+            J_history.append(cost_function(x, y, w, b))
+            p_history.append([w,b])
     
     return w, b, J_history, p_history
