@@ -9,8 +9,9 @@ def cost_function(x, y, w, b):
     for i in range(m):
         y_hat = w * x[i] + b      
         cost += (y_hat-y[i])**2
-        cost /= 2 * m
-
+    
+    cost /= 2 * m
+    
     # 3) Return total cost
     return cost
 
