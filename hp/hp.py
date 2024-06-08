@@ -28,8 +28,8 @@ square_feet = df['Living area']
 prices = prices.div(1000)
 
 # Add starting weight and bias
-w_init = 2.5e-1 # Increase in price for every 1 square feet
-b_init = 200 # Starting price for the cheapest houses
+w_init = 1.5e-1 # Increase in price for every 1 square feet
+b_init = 500 # Starting price for the cheapest houses
 
 # Iterations and learning rate for the gradient descent algorithm
 iterations = 10000
@@ -38,7 +38,7 @@ alpha = 1.0e-6 # Delicate and causes a divergence if it's set too large
 w_final, b_final, J_hist, p_hist = gradient_descent(
     square_feet, prices, w_init, b_init, alpha, iterations)
 
-print(f'w: {w_final}, b: {b_final}, J_start: {J_hist}, J_End: {p_hist}')
+print(f'w: {w_final}, b: {b_final}, J_start: {J_hist}, p_hist: {p_hist}')
 
 f_wb = []
 for i in range(square_feet.size):
